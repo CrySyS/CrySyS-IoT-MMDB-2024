@@ -1,0 +1,24 @@
+services:
+
+  neo4j-arm:
+    build:
+      context: dumps/arm
+      dockerfile: ../../dockerfile
+    container_name: neo4j-arm
+    # volumes:
+    #   - ./data/arm:/var/lib/neo4j/data
+    ports:
+      - 7474:7474
+      - 7687:7687
+
+  neo4j-mips:
+    build:
+      context: dumps/mips
+      dockerfile: ../../dockerfile
+    container_name: neo4j-mips
+    # volumes:
+    #   - ./data/mips:/var/lib/neo4j/data
+    ports:
+      - 7475:7474
+      - 7688:7687
+
