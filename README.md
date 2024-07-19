@@ -1,12 +1,18 @@
-# CrySyS IOT Malware Metadata DataBase 2024
+# CrySyS IoT Malware Metadata DataBase 2024
 
-Internet of Things (IoT) devices are becoming increasingly popular and used in various fields (e.g. smart city solutions, healthcare applications, industrial control and automation, agriculture, etc.). However, their increased use has made them vulnerable to attacks by well-known malware families such as Mirai, Gafgyt and Tsunami, which organise these compromised IoT devices into large botnets. To address this threat, the security research community has started to develop methods to detect IoT malware.
+The rapid development of the Internet-of-Things (IoT) has led to many innovative applications, but at the same time, it made
+IoT devices a common target for malicious actors. In particular, diverse malware families for IoT devices have appeared in
+the recent past. Our project aims at contributing to the research fields of IoT malware detection and classification by creating
+publicly available IoT malware metadata databases. We created these databases by cleaning five malware sample datasets,
+made available by Yokohama National University (YNU), and extracting valuable metadata from the samples and their VirusTotal
+analysis reports. Our databases contain metadata for 55,497 samples compiled for the ARM architecture and 46,134 samples
+compiled for the MIPS architecture that are verified malware based on their VirusTotal reports.
 
-Using the Yokohama National University (YNU) [malware datasets](https://sec.ynu.codes/iot/available_datasets#1) [1-2], we have created a metadata database of verified malware binaries. The datasets contain all metadata from the binaries, including information from the binaries themselves (such as ELF header information and file size) and details from the VirusTotal analysis reports (like the first submission date to VirusTotal and antivirus labels assigned by antivirus products). Accurate antivirus labels were generated using [AVClass2](https://github.com/malicialab/avclass). By creating these metadatabases, we want to support the community in using this publicly available metadatabase for various security research and development projects. We publish our metadata databases, called "CrySyS IoT Malware Metadata DataBase 2024", or CrySyS-IoT-MMDB-2024 for short, in a graph-based database called [Neo4j](https://neo4j.com/), which allows users to execute various queries and select specific subsets of IoT malware samples based on their metadata.
+More specifically, our databases contain metadata of a carefully selected subset of the samples in [five previously published IoT malware datasets](https://sec.ynu.codes/iot/available_datasets#1). These datasets (denoted by A, B, C, D-1, and D-2) were constructed by researchers of the Yokohama National University (YNU) by capturing potentially malicious files with two IoT honeypots [1,2]. We cleaned these datasets by filtering out samples that cannot be considered malware with high enough confidence, and collected useful metadata of the remaining, likely-to-be malware samples. Part of the metadata were extracted from the samples themselves, while some other metadata were extracted from their VirusTotal (VT) reports. We publish here the collected metadata in the form of graph-based databases, using Neo4j. This allows users to execute various queries on and to select various subsets of the original IoT malware samples based on their metadata. The graph-based nature of the databases also allows users to execute similarity searches on the samples. The samples themselves are not part of our published databases; they can be retrieved, if needed, from the original, publicly available datasets or from VirusTotal based on their SHA256 hash values (which we do store among the metadata).
 
 ## Description of the databases
 
-The CrySyS-IoT-MMDB-2024 consists of 55,497 ELF binaries compiled for the ARM platform and 46,137 ELF binaries compiled for the MIPS platform. The following table shows how many samples were compiled for 32-bit or 64-bit architectures, based on the information in their headers. All samples are executable files.
+The databases contain metadata for 55,497 ELF binaries compiled for the ARM platform and 46,134 ELF binaries compiled for the MIPS platform. The following table shows how many samples were compiled for 32-bit or 64-bit architectures, based on the information in their headers. All samples are executable files.
 
 |        | ARM    | MIPS   |
 | ------ | ------ | ------ |
@@ -17,13 +23,13 @@ Regarding the linking of ARM and MIPS samples, the following table shows how man
 
 |                    | ARM    | MIPS   |
 | ------------------ | ------ | ------ |
-| statically linked  | 49,755 | 46,114 |
+| statically linked  | 49,755 | 45,822 |
 | dynamically linked | 5,523  | 225    |
 | unknown            | 219    | 87     |
 
-The majority of the samples in the datasets are from a few bytes to around 400KB in size. In the ARM dataset, 127 samples are larger than 400 KiB, with the largest file being 8.86 MB. In the MIPS dataset, 225 samples are larger than 400 KiB, with the largest file size being 9.79 MB. 
+The majority of the samples covered by our databases are from a few bytes to around 400KB in size. Regarding ARM samples, 127 samples are larger than 400 KiB, with the largest file being 8.86 MB. Among the MIPS samples, 225 are larger than 400 KiB, with the largest file size being 9.79 MB.
 
-Based on our entropy analysis of the binaries, we found that the majority of samples in the databases are either native executables or packed. However, there are a few samples with a high entropy value, indicating the presence of encrypted files in the dataset.
+Based on our entropy analysis of the binaries, we found that the majority of samples are either native executables or packed. However, there are a few samples with a high entropy value, indicating the presence of encrypted files as well.
 
 ## Content of this repository
 
@@ -44,8 +50,8 @@ Based on our entropy analysis of the binaries, we found that the majority of sam
 `dockerfile`: Instructions to build the Docker image for Neo4j.
 
 `dumps directory`: Contains Neo4j data dumps for different CPU architectures.
-- `arm/neo4j_5.18.1_maintaned.dump`: Data dump for ARM architecture.
-- `mips/neo4j_5.18.1_maintaned.dump`: Data dump for MIPS architecture.
+- `arm/neo4j_5.18.1_maintaned.dump`: Dump of metadata for ARM samples.
+- `mips/neo4j_5.18.1_maintaned.dump`: Dump of metadata for ARM samples.
 
 
 ## How to get the metadata of the malware samples and the binaries themselves?
@@ -81,11 +87,7 @@ If required, raw binaries can be obtained from the [original datasets](https://s
 
 ## Acknowledgement
 
-The CrySyS-IoT-MMDB-2024 data set was compiled as part of the [SETIT Project](https://www.crysys.hu/research/setit/) (2018-1.2.1-NKP-2018-00004), which has been implemented with the support provided from the National Research, Development and Innovation Fund of Hungary, financed under the 2018-1.2.1-NKP funding scheme.
-
-Our work was also supported by the Ministry of Innovation and Technology NRDI Office, Hungary, within the framework of the Artificial Intelligence National Laboratory Program.
-
-The authors are thankful to [VirusTotal](https://www.virustotal.com/) for giving the permission to use data from VirusTotal analysis reports in the construction of the CrySyS-IoT-MMDB-2024 data set.
+The research presented in this paper was supported by the European Union project RRF-2.3.1-21-2022-00004 within the framework of the Artificial Intelligence National Laboratory and by the European Union’s Horizon Europe Research and Innovation Program through the [DOSS Project](https://dossproject.eu/) (Grant Number 101120270). The presented work also builds on results of the [SETIT Project](https://www.crysys.hu/research/setit/) (2018-1.2.1-NKP-2018-00004), which was implemented with the support provided from the [National Research, Development and Innovation Fund of Hungary](https://mi.nemzetilabor.hu/), financed under the 2018-1.2.1-NKP funding scheme. The authors are also thankful to [VirusTotal](https://www.virustotal.com/) for the academic license provided for research purposes.
 
 ## References
 
