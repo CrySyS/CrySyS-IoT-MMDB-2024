@@ -38,20 +38,17 @@ Based on our entropy analysis of the binaries, we found that the majority of sam
 |-- README.md
 |-- docker-compose.yml
 |-- dockerfile
-`-- dumps
-    |-- arm
-    |   `-- neo4j_5.18.1_maintaned.dump
-    `-- mips
-        `-- neo4j_5.18.1_maintaned.dump
 ```
 
 `docker-compose.yml`: Configuration file for setting up and managing the Docker container(s) for Neo4j.
 
 `dockerfile`: Instructions to build the Docker image for Neo4j.
 
-`dumps directory`: Contains Neo4j data dumps for different CPU architectures.
-- `arm/neo4j_5.18.1_maintaned.dump`: Dump of metadata for ARM samples.
-- `mips/neo4j_5.18.1_maintaned.dump`: Dump of metadata for ARM samples.
+## Access to the data
+
+You can download the dump files from these URLs:
+- MIPS: https://cloud.crysys.hu/s/mpBZCZD2w2Qdt5n
+- ARM: https://cloud.crysys.hu/s/oNjHY5QgTFNc9rq
 
 
 ## How to get the metadata of the malware samples and the binaries themselves?
